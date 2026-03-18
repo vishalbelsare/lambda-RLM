@@ -1,6 +1,16 @@
+# Third-Party Notices
+
+This repository incorporates and adapts code from the upstream RLM repository:
+
+https://github.com/alexzhang13/rlm
+
+The upstream repository is licensed under the MIT License.
+
+Original upstream notice:
+
 MIT License
 
-Copyright (c) 2026 Lambda-RLM Contributors
+Copyright (c) 2025 Alex Zhang
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +29,5 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+This repository additionally introduces Lambda-RLM-related code and benchmark integration.
