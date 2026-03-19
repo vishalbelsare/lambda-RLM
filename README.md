@@ -95,8 +95,7 @@ Key files:
 - `rlm/lambda_rlm.py` — LambdaRLM implementation, including task detection, planning, and deterministic execution through $\Phi$
 
 ## Benchmarking
-
-The benchmark entry point is used for running experiments with same dataset and comparing the behavior, latency, and output quality under the same setup between Normal RLM (rlm) and Lambda-RLM (lambda_rlm)
+The benchmark entry point is used to run the supported datasets under the same setup and compare behavior, latency and output quality across Normal RLM (`rlm`) and Lambda-RLM (`lambda_rlm`).
 
 
 ### Compare both methods on the same dataset
