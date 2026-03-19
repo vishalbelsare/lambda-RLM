@@ -45,7 +45,7 @@ from typing import Any
 
 from rlm.clients import BaseLM, get_client
 from rlm.core.lm_handler import LMHandler
-from rlm.core.types import ClientBackend, EnvironmentType, RLMChatCompletion, UsageSummary
+from rlm.core.types import ClientBackend, EnvironmentType, RLMChatCompletion
 from rlm.environments.local_repl import LocalREPL
 from rlm.logger import RLMLogger
 

@@ -1,14 +1,16 @@
-
-
 # $\lambda$-RLM
-Code for $\lambda$-Recursive Language Models: typed functional recursion for reliable long-context reasoning. 
+Code for **The $\mathbf{Y}$-Combinator for LLMs: \\ Solving Long-Context Rot with $\lambda$-Calculus**: a framework for long-context reasoning that replaces free-form recursive code generation with a typed functional runtime grounded in $\lambda$-calculus.
 
-Standard LLM inference is limited by context windows and is opaque — models improvise decomposition unpredictably. $\lambda$-RLM solves this by:
+<p align="center">
+  <img src="intro.png" alt="Lambda-RLM results figure" width="900" />
+</p>
 
-- **Pre-computing** the optimal decomposition plan before any LLM call (deterministic)
-- **Mapping inference** to Lambda Calculus primitives: β-reduction at leaves, symbolic combinators for composition
-- **Splitting** long inputs into parallel chunks where each fits in the model's context window
-- **Composing** results via pre-verified operators (MERGE_COUNTS, SEARCH_UNION, SUMMARIZE_REDUCE, etc.)
+Standard LLM inference is constrained by context windows and often relies on implicit, hard-to-predict decomposition strategies. $\lambda$-RLM addresses this by:
+
+- **Planning decomposition ahead of execution** with a deterministic recursive strategy
+- **Expressing inference through functional structure**, with model calls at local steps and symbolic operators for composition
+- **Breaking long inputs into manageable chunks** that fit within the model context window
+- **Combining intermediate results** through structured operators such as `MERGE_COUNTS`, `SEARCH_UNION`, and `SUMMARIZE_REDUCE`
 
 ---
 
@@ -22,26 +24,21 @@ conda activate lambda-rlm
 
 pip install -e .
 ```
-We support access models through APIs, for example, you can request a [NVIDIA NIM API key](https://build.nvidia.com) to access available models.
+We support access different avaialble models through APIs, for example, you can request a [NVIDIA NIM API key](https://build.nvidia.com) or a [TOGETHER AI API key](https://api.together.ai/) to access available models of the given API.
 
 ```bash
 export NVIDIA_API_KEY="nvapi-..."
 ```
 
+```bash
+export TOGETHER_API_KEY="tgp_..."
+```
 
-### Supported Task Types
-
-| Task | Composition Operator | Strategy |
-|---|---|---|
-| `aggregation` | MERGE_COUNTS | SPLIT → MAP → sum counts |
-| `search` | SEARCH_UNION | SPLIT → MAP → union doc IDs |
-| `classification` | CONCAT | SPLIT → MAP → concat labels |
-| `pairwise` | CONCAT + symbolic CROSS | MAP(classify) → CROSS(O(N²), free) |
-| `summarization` | SUMMARIZE_REDUCE + M | SPLIT → MAP → M(final synthesis) |
-| `extraction` | CONCAT | SPLIT → MAP → concat fields |
-| `code_understanding` | CONCAT | SPLIT → MAP → concat analysis |
-| `multi_hop` | SUMMARIZE_REDUCE + M | SPLIT → MAP(extract) → M(synthesize) |
-
+### Supported datasets:
+- `sniah` — Sequential-NIAH examples loaded from the public GitHub JSONL source
+- `oolong` — single-document QA examples loaded from `THUDM/LongBench-v2`
+- `browsecomp` — multi-document QA examples loaded from `THUDM/LongBench-v2`
+- `codeqa` — code repository understanding examples loaded from a local JSONL file or from `THUDM/LongBench-v2`
 
 ## Usage
 
@@ -70,7 +67,7 @@ Answer:"""
 
 rlm = LambdaRLM(
     backend_kwargs={
-        "model_name": "qwen/qwen3-next-80b-a3b-thinking",
+        "model_name": "meta/llama-3.3-70b-instruct",
         "api_key": os.environ["NVIDIA_API_KEY"],
         "base_url": "https://integrate.api.nvidia.com/v1",
     }
@@ -80,49 +77,10 @@ result = rlm.completion(prompt)
 print(result.response)
 ```
 
-## Benchmarking
-
-The benchmark entry point is used for running experiments with same dataset and comparing the behavior, latency, and output quality under the same setup between Normal RLM (rlm) and Lambda-RLM (lambda_rlm)
-
-### Supported datasets:
-- `sniah` — Sequential-NIAH examples loaded from a local JSONL file or from the public GitHub JSONL source
-- `oolong` — single-document QA examples loaded from `THUDM/LongBench-v2`
-- `browsecomp` — multi-document QA examples loaded from `THUDM/LongBench-v2`
-- `codeqa` — code repository understanding examples loaded from a local JSONL file or from `THUDM/LongBench-v2`
-
-### Supported models:
-- todo
-
-### Compare both methods on the same dataset
-
-```bash
-python benchmarks/benchmark.py --datasets sniah --methods rlm lambda_rlm --n-samples-per-bucket 1 --max-iter 8 --max-depth 2 --context-window 100000 --output-dir ./results_compare
-```
-
-Outputs are written to the specified output directory, typically including:
-- `results.json`
-- `stats.json`
-- `averages.json`
-
-### Run only Normal RLM
-
-```bash
-python benchmarks/benchmark.py --datasets sniah --methods rlm --n-samples-per-bucket 1 --max-iter 8 --max-depth 2 --context-window 100000 --output-dir ./results_compare
-```
-
-### Run only Lambda-RLM
-
-```bash
-python benchmarks/benchmark.py --datasets sniah --methods lambda_rlm --n-samples-per-bucket 1 --max-iter 8 --max-depth 2 --context-window 100000 --output-dir ./results_compare
-```
-
 ## Repository structure
 ### Normal RLM
 
-This repository uses upstream Normal RLM components for comparison.
-
-Upstream repository:
-`https://github.com/alexzhang13/rlm`
+This repository uses upstream Normal RLM components for comparison: `https://github.com/alexzhang13/rlm`
 
 The upstream code is licensed under the MIT License. See `THIRD_PARTY_NOTICES.md` for attribution and licensing details.
 
@@ -134,4 +92,32 @@ Key files:
 
 ### Lambda-RLM
 
-- `rlm/lambda_rlm.py` — LambdaRLM implementation, including task detection, planning, and deterministic execution through Φ
+- `rlm/lambda_rlm.py` — LambdaRLM implementation, including task detection, planning, and deterministic execution through $\Phi$
+
+## Benchmarking
+
+The benchmark entry point is used for running experiments with same dataset and comparing the behavior, latency, and output quality under the same setup between Normal RLM (rlm) and Lambda-RLM (lambda_rlm)
+
+
+### Compare both methods on the same dataset
+
+```bash
+python benchmarks/benchmark.py --datasets sniah --model meta/llama-3.3-70b-instruct --methods rlm lambda_rlm --n-samples-per-bucket 2 --max-iter 8 --max-depth 2 --context-window 100000 --output-dir ./results/llama-3.3-70b-instruct
+```
+
+Outputs are written to the specified output directory, typically including:
+- `results.json`
+- `stats.json`
+- `averages.json`
+
+### Run only Normal RLM
+
+```bash
+python benchmarks/benchmark.py --datasets sniah --model meta/llama-3.3-70b-instruct --methods rlm --n-samples-per-bucket 2 --max-iter 8 --max-depth 2 --context-window 100000 --output-dir ./results/llama-3.3-70b-instruct_rlm
+```
+
+### Run only Lambda-RLM
+
+```bash
+python benchmarks/benchmark.py --datasets sniah --model meta/llama-3.3-70b-instruct --methods lambda_rlm --n-samples-per-bucket 2 --max-iter 8 --max-depth 2 --context-window 100000 --output-dir ./results/llama-3.3-70b-instruct_lambda_rlm
+```

@@ -29,7 +29,6 @@ import argparse
 import json
 import math
 import sys
-import os as _os
 # Ensure the project root (parent of benchmarks/) is on sys.path so `import rlm` works
 # whether the script is run as `python benchmarks/benchmark.py` or `python -m benchmarks.benchmark`.
 sys.path.insert(0, str(__import__("pathlib").Path(__file__).resolve().parent.parent))
@@ -55,7 +54,6 @@ try:
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
-    import matplotlib.ticker as mtick
     import numpy as np
     _PLOT_AVAILABLE = True
 except ImportError:
@@ -85,8 +83,6 @@ except ImportError:
 #   256k   2^18=262144 185364          ∞
 #
 # Tokens for non-S-Niah datasets are estimated as chars // 4.
-
-import math as _math
 
 BIN_LABELS: list[str] = ["8k", "16k", "32k", "64k", "128k", "256k"]
 _BIN_EXPS:  list[int]  = list(range(13, 19))          # 13..18
