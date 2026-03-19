@@ -1,5 +1,5 @@
 # $\lambda$-RLM
-Code for **The $\mathbf{Y}$-Combinator for LLMs: \\ Solving Long-Context Rot with $\lambda$-Calculus**: a framework for long-context reasoning that replaces free-form recursive code generation with a typed functional runtime grounded in $\lambda$-calculus.
+Code for **The $\mathbf{Y}$-Combinator for LLMs:Solving Long-Context Rot with $\lambda$-Calculus**: a framework for long-context reasoning that replaces free-form recursive code generation with a typed functional runtime grounded in $\lambda$-calculus.
 
 <p align="center">
   <img src="intro.png" alt="Lambda-RLM results figure" width="900" />
