@@ -5,12 +5,12 @@ Code for **The $\mathbf{Y}$-Combinator for LLMs: \\ Solving Long-Context Rot wit
   <img src="intro.png" alt="Lambda-RLM results figure" width="900" />
 </p>
 
-Standard LLM inference is constrained by context windows and often relies on implicit, hard-to-predict decomposition strategies. $\lambda$-RLM addresses this by:
+Direct LLM inference and standard RLM inference are constrained by context windows and can rely on hard-to-predict decomposition strategies. $\lambda$-RLM addresses this by:
 
 - **Planning decomposition ahead of execution** with a deterministic recursive strategy
 - **Expressing inference through functional structure**, with model calls at local steps and symbolic operators for composition
 - **Breaking long inputs into manageable chunks** that fit within the model context window
-- **Combining intermediate results** through structured operators such as `MERGE_COUNTS`, `SEARCH_UNION`, and `SUMMARIZE_REDUCE`
+- **Applying the model only to bounded leaf subproblems and combining intermediate results** through structured operators such as `SPLIT`, `MAP`, `FILTER`, `REDUCE`, `CONCAT` and `CROSS`.
 
 ---
 
@@ -24,7 +24,7 @@ conda activate lambda-rlm
 
 pip install -e .
 ```
-We support access different avaialble models through APIs, for example, you can request a [NVIDIA NIM API key](https://build.nvidia.com) or a [TOGETHER AI API key](https://api.together.ai/) to access available models of the given API.
+The project supports multiple API-compatible model providers. For example, you can request a [NVIDIA NIM API key](https://build.nvidia.com) or a [TOGETHER AI API key](https://api.together.ai/) to access the available model backends. Set your API key as an environment variable:
 
 ```bash
 export NVIDIA_API_KEY="nvapi-..."
@@ -90,7 +90,7 @@ Key files:
 - `rlm/utils/parsing.py` — parsing of ```repl``` code blocks and FINAL markers; formatting of execution output back into the model history
 - `rlm/clients/openai.py` — OpenAI-compatible client used with NVIDIA NIM
 
-### Lambda-RLM
+### $\lambda$-RLM
 
 - `rlm/lambda_rlm.py` — LambdaRLM implementation, including task detection, planning, and deterministic execution through $\Phi$
 
@@ -116,7 +116,7 @@ Outputs are written to the specified output directory, typically including:
 python benchmarks/benchmark.py --datasets sniah --model meta/llama-3.3-70b-instruct --methods rlm --n-samples-per-bucket 2 --max-iter 8 --max-depth 2 --context-window 100000 --output-dir ./results/llama-3.3-70b-instruct_rlm
 ```
 
-### Run only Lambda-RLM
+### Run only $\lambda$-RLM
 
 ```bash
 python benchmarks/benchmark.py --datasets sniah --model meta/llama-3.3-70b-instruct --methods lambda_rlm --n-samples-per-bucket 2 --max-iter 8 --max-depth 2 --context-window 100000 --output-dir ./results/llama-3.3-70b-instruct_lambda_rlm
