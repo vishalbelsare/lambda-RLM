@@ -26,23 +26,13 @@ dependencies = [
     "python-dotenv>=1.2.1",
     "requests>=2.32.5",
     "rich>=13.0.0",
-]
-
-[project.optional-dependencies]
-benchmark = [
     "datasets>=2.21.0",
     "numpy>=1.26.0",
     "matplotlib>=3.8.0",
-]
-test = [
-    "pytest>=8.0.0",
-    "pytest-asyncio>=0.24.0",
-    "pytest-cov>=6.0.0",
-]
-dev = [
     "pre-commit>=4.5.1",
     "ruff>=0.14.10",
 ]
+
 
 [build-system]
 requires = ["setuptools>=61.0"]
