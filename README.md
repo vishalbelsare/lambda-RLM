@@ -50,7 +50,7 @@ Across weak, medium, and strong model families, λ-RLM improves accuracy over st
   <img src="intro.png" alt="Lambda-RLM overview and results" width="900"/>
 </p>
 
-## Why this repo matters?
+## Why it matters?
 
 Standard direct LLM inference is limited by the context window.  
 Standard Recursive Language Models (RLMs) go further, but often rely on **open-ended REPL-based recursive code generation**, which is powerful yet difficult to verify, predict, and analyse.
