@@ -1,9 +1,6 @@
 <h1 align="center">λ-RLM — The Y-Combinator for LLMs</h1>
 <p align="center">
-  <a href="https://lambda-calculus-llm.github.io/rlms/">
-    🌐 Website
-  </a>
-</p>
+  <a href="https://lambda-calculus-llm.github.io/rlms/"><b>🌐 Website</b></a> </p>
 <p align="center">
   <a href="https://arxiv.org/abs/2603.20105">
     <img src="https://img.shields.io/badge/arXiv-2603.20105-b31b1b.svg" alt="arXiv">
