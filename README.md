@@ -1,5 +1,5 @@
 <h1 align="center">λ-RLM — The Y-Combinator for LLMs</h1>
-<h1 align="center">[Website](https://lambda-calculus-llm.github.io/rlms/)</h1>
+<h1 align="center">[Website] (https://lambda-calculus-llm.github.io/rlms/)</h1>
 
 <p align="center">
   <a href="https://arxiv.org/abs/2603.20105">
